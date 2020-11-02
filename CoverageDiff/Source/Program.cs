@@ -11,10 +11,15 @@ namespace CoverageDiff
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
-            var cmd = new DiffCommand();
-            cmd.CoverageFile = "/home/mag/savelend/reloansys.identityservice/tests/Reloansys.Parallelizable.CI/coverage.xml";
-            cmd.DiffFile = "/home/mag/savelend/reloansys.identityservice/tests/Reloansys.Parallelizable.CI/git.diff";
-            cmd.Run();
+            Parser.Default.ParseArguments<DiffCommand>(args)
+                .WithParsed<DiffCommand>(o =>
+                {
+                    var cmd = new DiffCommand();
+                    cmd.CoverageFile = o.CoverageFile;
+                    cmd.DiffFile = o.DiffFile;
+                    cmd.OutputFile = o.OutputFile;
+                    cmd.Run();                    
+                });
         }
     }
 }
